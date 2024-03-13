@@ -17,6 +17,7 @@
 
 #include <webots/vehicle/Car.hpp>
 
+#include <webots_ros/Float64Stamped.h>
 #include <webots_ros/get_float.h>
 #include <webots_ros/get_int.h>
 #include <webots_ros/set_bool.h>
@@ -63,6 +64,9 @@ public:
   bool setSteeringAngleCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
   bool setThrottleCallback(webots_ros::set_float::Request &req, webots_ros::set_float::Response &res);
   bool setWiperModeCallback(webots_ros::set_int::Request &req, webots_ros::set_int::Response &res);
+
+  void steeringAngleCallback(const webots_ros::Float64Stamped msg);
+  void throttleCallback(const webots_ros::Float64Stamped msg);
 
 protected:
   virtual void setupRobot();
@@ -113,6 +117,9 @@ private:
   ros::Publisher mThrottlePublisher;
   ros::Publisher mWheelEncoderPublisher[4];
   ros::Publisher mWheelSpeedPublisher[4];
+
+  ros::Subscriber mSteeringAngleSubscriber;
+  ros::Subscriber mThrottleSubscriber;
 };
 
 #endif  // ROS_AUTOMOBILE_HPP

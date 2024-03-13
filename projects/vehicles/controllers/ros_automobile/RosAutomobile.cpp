@@ -71,6 +71,9 @@ RosAutomobile::~RosAutomobile() {
   mWheelSpeedPublisher[1].shutdown();
   mWheelSpeedPublisher[2].shutdown();
   mWheelSpeedPublisher[3].shutdown();
+
+  mSteeringAngleSubscriber.shutdown();
+  mThrottleSubscriber.shutdown();
 }
 
 void RosAutomobile::setupRobot() {
@@ -151,6 +154,9 @@ void RosAutomobile::launchRos(int argc, char **argv) {
   mWheelSpeedPublisher[1] = nodeHandle()->advertise<webots_ros::Float64Stamped>("automobile/front_left_wheel_speed", 1);
   mWheelSpeedPublisher[2] = nodeHandle()->advertise<webots_ros::Float64Stamped>("automobile/rear_right_wheel_speed", 1);
   mWheelSpeedPublisher[3] = nodeHandle()->advertise<webots_ros::Float64Stamped>("automobile/rear_left_wheel_speed", 1);
+
+  mSteeringAngleSubscriber = nodeHandle()->subscribe("automobile/set_throttle", 2, &RosAutomobile::throttleCallback, this);
+  mThrottleSubscriber = nodeHandle()->subscribe("automobile/set_steering_angle", 2, &RosAutomobile::steeringAngleCallback, this);
 }
 
 void RosAutomobile::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
@@ -320,6 +326,16 @@ bool RosAutomobile::setWiperModeCallback(webots_ros::set_int::Request &req, webo
   car()->setWiperMode(Driver::WiperMode(req.value));
   res.success = true;
   return true;
+}
+
+void RosAutomobile::steeringAngleCallback(const webots_ros::Float64Stamped msg)
+{
+  car()->setSteeringAngle(msg.data);
+}
+
+void RosAutomobile::throttleCallback(const webots_ros::Float64Stamped msg)
+{
+  car()->setThrottle(msg.data);
 }
 
 int RosAutomobile::step(int duration) {
