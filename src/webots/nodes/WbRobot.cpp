@@ -59,6 +59,7 @@
 #include <QtCore/QTimer>
 #include <QtCore/QUrl>
 
+#include <iostream>
 #include <limits>
 
 static QHash<int, int> createSpecialKeys() {
@@ -532,13 +533,18 @@ void WbRobot::updateControllerDir() {
       path << QDir::cleanPath(protoModelProjectPath() + "/controllers/" + controllerName()) + '/';
     foreach (const WbProject *extraProject, *WbProject::extraProjects())
       path << extraProject->controllersPath() + controllerName() + '/';
+    // TODO(lucasw) hack to keep using ros_automobile with a proto not in this path
+    path << WbProject::defaultProject()->controllersPath() + "../../vehicles/controllers/" + controllerName() + '/';
     path << WbProject::defaultProject()->controllersPath() + controllerName() + '/';
     path << WbProject::system()->controllersPath() + controllerName() + '/';
     path.removeDuplicates();
 
+    std::cout << "controllers path" << WbProject::current()->controllersPath().toStdString()
+        << ", controller name: " << controllerName().toStdString() << "\n";
     mControllerDir = "";
     const int size = path.size();
     for (int i = 0; i < size; ++i) {
+      std::cout << path[i].toStdString() << "\n";
       if (!QDir(path[i]).exists())
         continue;
       mControllerDir = path[i];
