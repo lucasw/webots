@@ -67,6 +67,7 @@ public:
 
   void steeringAngleCallback(const webots_ros::Float64Stamped msg);
   void throttleCallback(const webots_ros::Float64Stamped msg);
+  void brakeCallback(const webots_ros::Float64Stamped msg);
 
 protected:
   virtual void setupRobot();
@@ -120,6 +121,7 @@ private:
 
   ros::Subscriber mSteeringAngleSubscriber;
   ros::Subscriber mThrottleSubscriber;
+  ros::Subscriber mBrakeSubscriber;
 };
 
 #endif  // ROS_AUTOMOBILE_HPP

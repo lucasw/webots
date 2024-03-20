@@ -155,8 +155,9 @@ void RosAutomobile::launchRos(int argc, char **argv) {
   mWheelSpeedPublisher[2] = nodeHandle()->advertise<webots_ros::Float64Stamped>("automobile/rear_right_wheel_speed", 1);
   mWheelSpeedPublisher[3] = nodeHandle()->advertise<webots_ros::Float64Stamped>("automobile/rear_left_wheel_speed", 1);
 
-  mSteeringAngleSubscriber = nodeHandle()->subscribe("automobile/set_throttle", 2, &RosAutomobile::throttleCallback, this);
-  mThrottleSubscriber = nodeHandle()->subscribe("automobile/set_steering_angle", 2, &RosAutomobile::steeringAngleCallback, this);
+  mSteeringAngleSubscriber = nodeHandle()->subscribe("automobile/set_steering_angle", 2, &RosAutomobile::steeringAngleCallback, this);
+  mThrottleSubscriber = nodeHandle()->subscribe("automobile/set_throttle", 2, &RosAutomobile::throttleCallback, this);
+  mBrakeSubscriber = nodeHandle()->subscribe("automobile/set_brake", 2, &RosAutomobile::brakeCallback, this);
 }
 
 void RosAutomobile::setRosDevices(const char **hiddenDevices, int numberHiddenDevices) {
@@ -336,6 +337,11 @@ void RosAutomobile::steeringAngleCallback(const webots_ros::Float64Stamped msg)
 void RosAutomobile::throttleCallback(const webots_ros::Float64Stamped msg)
 {
   car()->setThrottle(msg.data);
+}
+
+void RosAutomobile::brakeCallback(const webots_ros::Float64Stamped msg)
+{
+  car()->setBrakeIntensity(msg.data);
 }
 
 int RosAutomobile::step(int duration) {
