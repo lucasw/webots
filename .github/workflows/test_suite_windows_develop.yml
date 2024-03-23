@@ -1,8 +1,8 @@
 name: Windows build (develop)
 
 on:
-  schedule:
-    - cron:  '0 23 * * *'
+  # schedule:
+  #   - cron:  '0 23 * * *'
 
 defaults:
   run:

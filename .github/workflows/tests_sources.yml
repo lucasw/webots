@@ -5,8 +5,8 @@ on:
     types: [opened, synchronize, reopened, labeled, unlabeled]
     branches-ignore:
       - 'released'
-  schedule:
-    - cron:  '0 22 * * *'
+  # schedule:
+  #   - cron:  '0 22 * * *'
 
 defaults:
   run:

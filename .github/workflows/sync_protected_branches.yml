@@ -1,8 +1,8 @@
 name: Branch synchronizer
 
 on:
-  schedule:
-    - cron:  '0 04 * * *'
+  # schedule:
+  #   - cron:  '0 04 * * *'
 
 jobs:
   sync-master-with-released:

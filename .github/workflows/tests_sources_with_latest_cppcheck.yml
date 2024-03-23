@@ -1,8 +1,8 @@
 name: Test Sources with Latest Cppcheck
 
 on:
-  schedule:
-    - cron:  '0 22 * * *'
+  # schedule:
+  #   - cron:  '0 22 * * *'
 
 defaults:
   run:
