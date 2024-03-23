@@ -1,6 +1,7 @@
 name: Windows build (develop)
 
 on:
+  pull_request:
   # schedule:
   #   - cron:  '0 23 * * *'
 

@@ -1,6 +1,7 @@
 name: Branch synchronizer
 
 on:
+  pull_request:
   # schedule:
   #   - cron:  '0 04 * * *'
 
